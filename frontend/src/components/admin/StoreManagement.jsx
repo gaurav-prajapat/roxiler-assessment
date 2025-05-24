@@ -121,100 +121,105 @@ const StoreManagement = () => {
       {success && <SuccessMessage message={success} className="mb-4" />}
 
       {showCreateForm && (
-       <div className="bg-white shadow-md rounded-2xl p-8 mb-10 border border-gray-200">
-  <h3 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-    🏪 Create New Store
-  </h3>
+        <div className="bg-white shadow-md rounded-2xl p-8 mb-10 border border-gray-200">
+          <h3 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+            🏪 Create New Store
+          </h3>
 
-  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label className="block text-sm font-semibold text-gray-800 mb-1">
-          Store Name
-        </label>
-        <input
-          {...register("name")}
-          type="text"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition sm:text-sm"
-          placeholder="e.g., Urban Mart, GreenGrocers"
-        />
-        {errors.name && (
-          <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
-        )}
-      </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-800 mb-1">
+                  Store Name
+                </label>
+                <input
+                  {...register("name")}
+                  type="text"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition sm:text-sm"
+                  placeholder="e.g., Urban Mart, GreenGrocers"
+                />
+                {errors.name && (
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
 
-      <div>
-        <label className="block text-sm font-semibold text-gray-800 mb-1">
-          Store Email
-        </label>
-        <input
-          {...register("email")}
-          type="email"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition sm:text-sm"
-          placeholder="store@example.com"
-        />
-        {errors.email && (
-          <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
-        )}
-      </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-800 mb-1">
+                  Store Email
+                </label>
+                <input
+                  {...register("email")}
+                  type="email"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition sm:text-sm"
+                  placeholder="store@example.com"
+                />
+                {errors.email && (
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
 
-      <div className="md:col-span-2">
-        <label className="block text-sm font-semibold text-gray-800 mb-1">
-          Owner Email
-        </label>
-        <input
-          {...register("ownerEmail")}
-          type="email"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition sm:text-sm"
-          placeholder="owner@example.com (existing store_owner)"
-        />
-        {errors.ownerEmail && (
-          <p className="mt-1 text-xs text-red-600">
-            {errors.ownerEmail.message}
-          </p>
-        )}
-      </div>
-    </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-semibold text-gray-800 mb-1">
+                  Owner Email
+                </label>
+                <input
+                  {...register("ownerEmail")}
+                  type="email"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition sm:text-sm"
+                  placeholder="owner@example.com (existing store_owner)"
+                />
+                {errors.ownerEmail && (
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.ownerEmail.message}
+                  </p>
+                )}
+              </div>
+            </div>
 
-    <div>
-      <label className="block text-sm font-semibold text-gray-800 mb-1">
-        Store Address
-      </label>
-      <textarea
-        {...register("address")}
-        rows={3}
-        className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition sm:text-sm"
-        placeholder="Complete store address (max 400 characters)"
-      />
-      {errors.address && (
-        <p className="mt-1 text-xs text-red-600">{errors.address.message}</p>
-      )}
-    </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-800 mb-1">
+                Store Address
+              </label>
+              <textarea
+                {...register("address")}
+                rows={3}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition sm:text-sm"
+                placeholder="Complete store address (max 400 characters)"
+              />
+              {errors.address && (
+                <p className="mt-1 text-xs text-red-600">
+                  {errors.address.message}
+                </p>
+              )}
+            </div>
 
-    <div className="flex justify-end">
-      <button
-        type="submit"
-        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
-      >
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 4v16m8-8H4"
-          />
-        </svg>
-        Create Store
-      </button>
-    </div>
-  </form>
-</div>
-
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                Create Store
+              </button>
+            </div>
+          </form>
+        </div>
       )}
 
       {/* Filters */}
@@ -229,7 +234,7 @@ const StoreManagement = () => {
               htmlFor="search"
               className="block text-sm font-medium text-gray-700"
             >
-            Search
+              Search
             </label>
             <input
               type="text"
@@ -268,7 +273,7 @@ const StoreManagement = () => {
               htmlFor="sortOrder"
               className="block text-sm font-medium text-gray-700"
             >
-               Order
+              Order
             </label>
             <select
               id="sortOrder"

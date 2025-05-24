@@ -2,7 +2,6 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const db = require('../config/database');
 const { auth, requireRole } = require('../middleware/auth');
-const storeController = require('../controllers/storeController');
 const router = express.Router();
 
 // Apply auth middleware to all user routes
