@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { adminAPI } from '../../services/api';
-import { createUserSchema } from '../../utils/validation';
-import LoadingSpinner from '../common/LoadingSpinner';
-import ErrorMessage from '../common/ErrorMessage';
-import SuccessMessage from '../common/SuccessMessage';
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { adminAPI } from "../../services/api";
+import { createUserSchema } from "../../utils/validation";
+import LoadingSpinner from "../common/LoadingSpinner";
+import ErrorMessage from "../common/ErrorMessage";
+import SuccessMessage from "../common/SuccessMessage";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [filters, setFilters] = useState({
-    search: '',
-    role: '',
-    sortBy: 'created_at',
-    sortOrder: 'desc',
+    search: "",
+    role: "",
+    sortBy: "created_at",
+    sortOrder: "desc",
     page: 1,
-    limit: 10
+    limit: 10,
   });
   const [pagination, setPagination] = useState({});
 
@@ -44,10 +44,10 @@ const UserManagement = () => {
       setPagination({
         totalCount: response.data.totalCount,
         totalPages: response.data.totalPages,
-        currentPage: response.data.currentPage
+        currentPage: response.data.currentPage,
       });
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to fetch users');
+      setError(err.response?.data?.message || "Failed to fetch users");
     } finally {
       setLoading(false);
     }
@@ -55,39 +55,39 @@ const UserManagement = () => {
 
   const onSubmit = async (data) => {
     try {
-      setError('');
-      setSuccess('');
+      setError("");
+      setSuccess("");
       await adminAPI.createUser(data);
-      setSuccess('User created successfully!');
+      setSuccess("User created successfully!");
       reset();
       setShowCreateForm(false);
       fetchUsers();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create user');
+      setError(err.response?.data?.message || "Failed to create user");
     }
   };
 
   const handleFilterChange = (key, value) => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
       [key]: value,
-      page: 1 // Reset to first page when filtering
+      page: 1, // Reset to first page when filtering
     }));
   };
 
   const handlePageChange = (page) => {
-    setFilters(prev => ({ ...prev, page }));
+    setFilters((prev) => ({ ...prev, page }));
   };
 
   const formatRole = (role) => {
-    return role.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+    return role.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -96,14 +96,18 @@ const UserManagement = () => {
       <div className="mb-8">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
-            <p className="mt-2 text-gray-600">Manage system users and their roles</p>
+            <h1 className="text-3xl font-bold text-gray-900">
+              User Management
+            </h1>
+            <p className="mt-2 text-gray-600">
+              Manage system users and their roles
+            </p>
           </div>
           <button
             onClick={() => setShowCreateForm(!showCreateForm)}
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            {showCreateForm ? 'Cancel' : 'Create User'}
+            {showCreateForm ? "Cancel" : "Create User"}
           </button>
         </div>
       </div>
@@ -112,105 +116,145 @@ const UserManagement = () => {
       {success && <SuccessMessage message={success} className="mb-4" />}
 
       {showCreateForm && (
-        <div className="bg-white shadow rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Create New User</h3>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Name</label>
-                <input
-                  {...register('name')}
-                  type="text"
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                    placeholder="Full name (20-60 characters)"
-                />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-                )}
-              </div>
+       <div className="bg-white shadow-xl rounded-2xl p-8 mb-8 border border-gray-200">
+  <h3 className="text-2xl font-bold text-gray-800 mb-6">
+    Create New User
+  </h3>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
-                <input
-                  {...register('email')}
-                  type="email"
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="Email address"
-                />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-                )}
-              </div>
+  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Name */}
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+          Name
+        </label>
+        <input
+          id="name"
+          {...register("name")}
+          type="text"
+          placeholder="Full name (20–60 characters)"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+        />
+        {errors.name && (
+          <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+        )}
+      </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Password</label>
-                <input
-                  {...register('password')}
-                  type="password"
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="Password"
-                />
-                {errors.password && (
-                  <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
-                )}
-              </div>
+      {/* Email */}
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          Email
+        </label>
+        <input
+          id="email"
+          {...register("email")}
+          type="email"
+          placeholder="Email address"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+        />
+        {errors.email && (
+          <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+        )}
+      </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Role</label>
-                <select {...register('role')} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                  <option value="">Select role</option>
-                  <option value="system_admin">System Admin</option>
-                  <option value="user">Normal User</option>
-                  <option value="store_owner">Store Owner</option>
-                </select>
-                {errors.role && (
-                  <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>
-                )}
-              </div>
-            </div>
+      {/* Password */}
+      <div>
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+          Password
+        </label>
+        <input
+          id="password"
+          {...register("password")}
+          type="password"
+          placeholder="Password"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+        />
+        {errors.password && (
+          <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+        )}
+      </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Address</label>
-              <textarea
-                {...register('address')}
-                rows={3}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Address (max 400 characters)"
-              />
-              {errors.address && (
-                <p className="mt-1 text-sm text-red-600">{errors.address.message}</p>
-              )}
-            </div>
+      {/* Role */}
+      <div>
+        <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
+          Role
+        </label>
+        <select
+          id="role"
+          {...register("role")}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+        >
+          <option value="">Select role</option>
+          <option value="system_admin">System Admin</option>
+          <option value="user">Normal User</option>
+          <option value="store_owner">Store Owner</option>
+        </select>
+        {errors.role && (
+          <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>
+        )}
+      </div>
+    </div>
 
-            <div className="flex justify-end">
-              <button type="submit" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Create User
-              </button>
-            </div>
-          </form>
-        </div>
+    {/* Address */}
+    <div>
+      <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+        Address
+      </label>
+      <textarea
+        id="address"
+        {...register("address")}
+        rows={3}
+        placeholder="Address (max 400 characters)"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+      />
+      {errors.address && (
+        <p className="mt-1 text-sm text-red-600">{errors.address.message}</p>
+      )}
+    </div>
+
+    {/* Submit Button */}
+    <div className="flex justify-end">
+      <button
+        type="submit"
+        className="inline-flex items-center px-6 py-2 text-sm font-semibold rounded-lg shadow-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition"
+      >
+        Create User
+      </button>
+    </div>
+  </form>
+</div>
+
       )}
 
       {/* Filters */}
-      <div className="bg-white shadow rounded-lg p-6 mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 mb-8 border border-gray-200">
+        <h2 className="text-xl font-semibold text-gray-800 mb-6">
+        Filter & Sort Users
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Search */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Search</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-1">
+              Search
+            </label>
             <input
               type="text"
               value={filters.search}
-              onChange={(e) => handleFilterChange('search', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              onChange={(e) => handleFilterChange("search", e.target.value)}
               placeholder="Search by name or email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
             />
           </div>
 
+          {/* Role Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Role</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-1">
+              Role
+            </label>
             <select
               value={filters.role}
-              onChange={(e) => handleFilterChange('role', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              onChange={(e) => handleFilterChange("role", e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"
             >
               <option value="">All roles</option>
               <option value="system_admin">System Admin</option>
@@ -219,12 +263,15 @@ const UserManagement = () => {
             </select>
           </div>
 
+          {/* Sort By */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Sort By</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-1">
+              Sort By
+            </label>
             <select
               value={filters.sortBy}
-              onChange={(e) => handleFilterChange('sortBy', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"
             >
               <option value="created_at">Created Date</option>
               <option value="name">Name</option>
@@ -233,12 +280,15 @@ const UserManagement = () => {
             </select>
           </div>
 
+          {/* Sort Order */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Order</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-1">
+              Order
+            </label>
             <select
               value={filters.sortOrder}
-              onChange={(e) => handleFilterChange('sortOrder', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"
             >
               <option value="desc">Descending</option>
               <option value="asc">Ascending</option>
@@ -279,16 +329,24 @@ const UserManagement = () => {
                     <tr key={user.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
-                          <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                          <div className="text-sm text-gray-500">{user.email}</div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {user.name}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {user.email}
+                          </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          user.role === 'system_admin' ? 'bg-red-100 text-red-800' :
-                          user.role === 'store_owner' ? 'bg-blue-100 text-blue-800' :
-                          'bg-green-100 text-green-800'
-                        }`}>
+                        <span
+                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            user.role === "system_admin"
+                              ? "bg-red-100 text-red-800"
+                              : user.role === "store_owner"
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-green-100 text-green-800"
+                          }`}
+                        >
                           {formatRole(user.role)}
                         </span>
                       </td>
@@ -301,20 +359,23 @@ const UserManagement = () => {
                         {formatDate(user.created_at)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {user.role === 'store_owner' && user.averageRating ? (
+                        {user.role === "store_owner" && user.averageRating ? (
                           <div className="flex items-center">
                             <span className="text-yellow-400 mr-1">★</span>
                             {parseFloat(user.averageRating).toFixed(1)}
                           </div>
                         ) : (
-                          '-'
+                          "-"
                         )}
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="px-6 py-4 text-center text-sm text-gray-500">
+                    <td
+                      colSpan="5"
+                      className="px-6 py-4 text-center text-sm text-gray-500"
+                    >
                       No users found
                     </td>
                   </tr>
@@ -346,16 +407,20 @@ const UserManagement = () => {
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm text-gray-700">
-                  Showing{' '}
+                  Showing{" "}
                   <span className="font-medium">
                     {(pagination.currentPage - 1) * filters.limit + 1}
-                  </span>{' '}
-                  to{' '}
+                  </span>{" "}
+                  to{" "}
                   <span className="font-medium">
-                    {Math.min(pagination.currentPage * filters.limit, pagination.totalCount)}
-                  </span>{' '}
-                  of{' '}
-                  <span className="font-medium">{pagination.totalCount}</span> results
+                    {Math.min(
+                      pagination.currentPage * filters.limit,
+                      pagination.totalCount
+                    )}
+                  </span>{" "}
+                  of{" "}
+                  <span className="font-medium">{pagination.totalCount}</span>{" "}
+                  results
                 </p>
               </div>
               <div>
@@ -367,14 +432,17 @@ const UserManagement = () => {
                   >
                     Previous
                   </button>
-                  {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
+                  {Array.from(
+                    { length: pagination.totalPages },
+                    (_, i) => i + 1
+                  ).map((page) => (
                     <button
                       key={page}
                       onClick={() => handlePageChange(page)}
                       className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                         page === pagination.currentPage
-                          ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
-                          : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                          ? "z-10 bg-blue-50 border-blue-500 text-blue-600"
+                          : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
                       }`}
                     >
                       {page}

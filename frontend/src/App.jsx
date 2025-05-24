@@ -20,8 +20,6 @@ import UserProfile from './components/user/UserProfile';
 // Store Owner Components
 import StoreDashboard from './components/store/StoreDashboard';
 
-import './App.css';
-
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { user, loading } = useAuth();
