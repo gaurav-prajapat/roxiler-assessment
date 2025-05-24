@@ -47,9 +47,9 @@ export const adminAPI = {
   // Dashboard
   getDashboard: async () => {
     try {
-      console.log('Fetching dashboard data...');
+      
       const response = await api.get('/admin/dashboard');
-      console.log('Dashboard response:', response.data);
+      
       return response;
     } catch (error) {
       console.error('Dashboard API error:', error);

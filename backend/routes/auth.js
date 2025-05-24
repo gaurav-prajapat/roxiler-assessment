@@ -27,7 +27,7 @@ router.post('/register', [
     }
 
     const { name, email, password, address } = req.body;
-    const role = 'normal_user'; // Default role for registration
+    const role = 'user'; // Default role for registration
 
     // Check if user already exists
     const existingUser = await db.query(

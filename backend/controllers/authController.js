@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Apply auth middleware to all user routes
 router.use(auth);
-router.use(requireRole(['normal_user']));
+router.use(requireRole(['user']));
 
 // Get user statistics for dashboard
 router.get('/stats', async (req, res) => {

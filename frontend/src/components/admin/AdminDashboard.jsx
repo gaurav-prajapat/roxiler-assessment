@@ -20,10 +20,9 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       setError('');
-      console.log('Fetching dashboard data from component...');
       
       const response = await adminAPI.getDashboard();
-      console.log('Dashboard data received:', response.data);
+      
       
       setStats({
         totalUsers: response.data.totalUsers || 0,

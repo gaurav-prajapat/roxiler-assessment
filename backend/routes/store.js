@@ -12,7 +12,7 @@ router.use(requireRole(['store_owner']));
 router.get('/dashboard', async (req, res) => {
   try {
     const userId = req.user.userId || req.user.id;
-    console.log('Store dashboard request for user:', userId);
+    
     
     // Get store information for this owner
     const stores = await db.query(`
@@ -61,8 +61,6 @@ router.get('/ratings', async (req, res) => {
       sortOrder = 'desc'
     } = req.query;
     
-    console.log('Store ratings request for user:', userId, 'with params:', req.query);
-    
     // First get the store ID for this owner
     const stores = await db.query('SELECT id FROM stores WHERE owner_id = ?', [userId]);
     
@@ -71,7 +69,6 @@ router.get('/ratings', async (req, res) => {
     }
     
     const storeId = stores[0].id;
-    console.log('Found store ID:', storeId);
     
     // Validate sort parameters
     const validSortColumns = ['created_at', 'rating', 'userName'];
@@ -103,8 +100,6 @@ router.get('/ratings', async (req, res) => {
     );
     
     const totalCount = countResult && countResult.length > 0 ? countResult[0].count : 0;
-    
-    console.log('Found ratings:', ratings.length, 'Total count:', totalCount);
     
     res.json({
       data: ratings || [],

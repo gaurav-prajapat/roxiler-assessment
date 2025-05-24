@@ -21,10 +21,8 @@ const UserDashboard = () => {
     try {
       setLoading(true);
       setError('');
-      console.log('Fetching user dashboard data...');
       
       const response = await userAPI.getUserStats();
-      console.log('User dashboard data received:', response.data);
       
       setStats({
         totalStores: response.data.totalStores || 0,
